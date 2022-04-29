@@ -2,6 +2,8 @@
  * This calculator does all necessary functions with GUI format
  * Also, added extra features such as MC, MR, M+, M-, Math.pow and Math.sqrt
  * 
+ * Github: https://github.com/sherlock59/CalculatorJavaFX.git
+ * 
  * @Author: Annaberdi Meredov
  * @Date: 04.28.22
  * @Code From https://www3.ntu.edu.sg/home/ehchua/programming/java/Javafx1_intro.html
