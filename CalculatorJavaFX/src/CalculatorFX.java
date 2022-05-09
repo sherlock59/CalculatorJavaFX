@@ -1,13 +1,4 @@
-/**
- * This calculator does all necessary functions with GUI format
- * Also, added extra features such as MC, MR, M+, M-, Math.pow and Math.sqrt
- * 
- * Github: https://github.com/sherlock59/CalculatorJavaFX.git
- * 
- * @Author: Annaberdi Meredov
- * @Date: 04.28.22
- * @Code From https://www3.ntu.edu.sg/home/ehchua/programming/java/Javafx1_intro.html
- **/
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -24,101 +15,158 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import java.lang.Math;
 
+/**
+ * This calculator does all necessary functions with GUI format
+ * Also, added extra features such as MC, MR, M+, M-, Math.pow and Math.sqrt
+ * 
+ * @Author: Anaberdi Meredov
+ * @Date: 04.28.22
+ * @Code: From https://www3.ntu.edu.sg/home/ehchua/programming/java/Javafx1_intro.html
+ * @github: https://github.com/sherlock59/CalculatorJavaFX.git
+*/
 public class CalculatorFX extends Application {
-   private TextField tfDisplay;    // display textfield
-   private Button[] btns;          // 16 buttons
-   private String[] btnLabels = {  // Labels of 16 buttons
+	
+	/**
+	 * displays text field
+	 */
+private TextField tfDisplay;
+
+   /**
+    * 16 buttons 
+    */
+private Button[] btns; 
+
+   /**
+    * labels of 16 buttons 
+    */
+private String[] btnLabels = { 
       "7", "8", "9", "+",
       "4", "5", "6", "-",
       "1", "2", "3", "*",
       "C", "0", "=", "/",
-      "^2", "^3", "SQRT", "POW",
+      "^", "SPC", "SQRT", "POW",
       "MC", "MR", "M+", "M-"
    };
-   // For computation
-   private int result = 0;      // Result of computation
-   private int memoryNum = 0;	// Number in memory
-   private String inStr = "0";  // Input number as String
-   /* Previous operator: " "(nothing), "+", "-", "*", "/", "=", "^2",
-    * "^3", "POW", "SQRT", "MR", "MC", "M+", "M-" 
-    */
-   private String lastOperator = " ";
 
-   // Event handler for all the 16 Buttons
-   EventHandler handler = evt -> {
+   /**
+    * Result of computation
+    */
+private int result = 0;
+
+   /**
+    * Number in memory 
+    */
+private int memoryNum = 0;
+
+   /**
+    * input as String 
+    */
+private String inStr = "0";
+
+   /**
+    *  Previous operator: " "(nothing), "+", "-", "*", "/", "=", "^",
+    * "SPC", "POW", "SQRT", "MR", "MC", "M+", "M-" 
+    */
+private String lastOperator = " ";
+
+   /**
+    * Event handler for all the 16 Buttons
+    */
+EventHandler handler = evt -> {
       String currentBtnLabel = ((Button)evt.getSource()).getText();
       
-      //currentNum is used for our single digit operations
+      /**
+       * currentNum is used for our single digit operations
+       */
       int currentNum = Integer.parseInt(tfDisplay.getText());
+      String space = null;
+      int rand = value(0-9);
       switch (currentBtnLabel) {
-         // Number buttons
+   
+      /**
+       * Number of buttons
+       */
          case "0": case "1": case "2": case "3": case "4":
          case "5": case "6": case "7": case "8": case "9":
-          
+        	 
+        	 /**
+        	  * no leading zero
+        	  */
             if (inStr.equals("0")) {
-               inStr = currentBtnLabel;  // no leading zero
+               inStr = currentBtnLabel; 
             } else {
-               inStr += currentBtnLabel; // append input digit
+               inStr += currentBtnLabel;
             }
             tfDisplay.setText(inStr);
-            // Clear buffer if last operator is '='
+            
+            /**
+             * Clearing buffer if last operator is '='
+             */
             if (lastOperator == "=") {
                result = 0;
-               lastOperator = " ";
+               lastOperator = "SPC";
             }
             break;
             
-         //^2 operation stays under the switch because it only uses one number  
-         case "^2":
-        	 currentNum = (int) Math.pow(currentNum, 2);
-        	 tfDisplay.setText(currentNum + "");
-        	 inStr = String.valueOf(currentNum);
+            /**
+             * Space button 
+             */
+         case "SPC":
+        	 space = "";
+        	 Button btns;
+        	 inStr = String.valueOf(space);
         	 break;
-        
-         //^3 operation stays under the switch because it only uses one number 
-         case "^3":
-        	 currentNum = (int) Math.pow(currentNum, 3);
-        	 tfDisplay.setText(currentNum + "");
-        	 inStr = String.valueOf(currentNum);
-        	 break;
-        	
-         //SQRT operation stays under the switch because it only uses one number
+
+        	 /**
+        	  * SQRT operation stays under the switch because it only uses one number
+        	  */
          case "SQRT":
         	 currentNum = (int) Math.sqrt(currentNum);
         	 tfDisplay.setText(currentNum + "");
         	 inStr = String.valueOf(currentNum);
         	 break;
-        	 
-         //Memory clear	 
+        	
+        	 /**
+        	  * Memory clear
+        	  */
          case "MC":
         	 memoryNum = 0;
              break;
         
-         //Memory recall	
+             /**
+              * memory recall
+              */
          case "MR":
-        	 tfDisplay.setText(memoryNum + "");
         	 inStr = String.valueOf(memoryNum);
+        	 tfDisplay.setText(memoryNum + "");
         	 break;
-        	 
-         //Memory add	 
+        	    
+        	 /**
+        	  * Memory add
+        	  */
          case "M+":
         	 memoryNum += result;
         	 break;
-        	 
-         //Memory subtract	 
+        	 /**
+        	  * memory subtract
+        	  */
          case "M-":
         	 memoryNum -= result;
         	 break;
-    
-         // Clear button
+
+        	 /**
+        	  * Clear button
+        	  */
          case "C":
             result = 0;
             inStr = "0";
             lastOperator = " ";
             tfDisplay.setText("0");
             break; 
-            
-         // default operator for buttons that require 2 numbers to run   
+
+            /**
+             * default operator for buttons that require 2 numbers to run 
+             */
          default:
         	 compute();
         	 lastOperator = currentBtnLabel;
@@ -126,10 +174,12 @@ public class CalculatorFX extends Application {
       }
    };
 
-   // User pushes '+', '-', '*', '/', 'POW', or '=' button.
-   // Perform computation on the previous result and the current input number,
-   // based on the previous operator.
-   private void compute() {
+   /**
+    * User pushes '+', '-', '*', '/', 'POW', or '=' button.
+    * Perform computation on the previous result and the current input number.
+    * based on previous number 
+    */
+private void compute() {
       int inNum = Integer.parseInt(inStr);
       inStr = "0";
       if (lastOperator == " ") {
@@ -145,26 +195,55 @@ public class CalculatorFX extends Application {
       } else if (lastOperator == "POW") {
          result = (int) Math.pow(result,inNum); 
       }else if (lastOperator == "=") {
-         // Keep the result for the next operation
-      } 
+    	  
+      }
+    	  /**
+    	   * Keeps the result for the next operation
+    	   */
       tfDisplay.setText(result + "");
    }
 
-   // Setup the UI
-   @Override
+   /**
+    * @param i
+    * @return
+    */
+private int value(int i) {
+	return 0;
+}
+
+   /**
+    * Setting up the UI
+    */
+@Override
    public void start(Stage primaryStage) {
-      // Setup the Display TextField
+
+	/**
+	 * Setting up the Display TextField
+	 */
       tfDisplay = new TextField("0");
       tfDisplay.setEditable(false);
       tfDisplay.setAlignment(Pos.CENTER_RIGHT);
 
-      // Setup a GridPane for 4 columns and 6 rows of Buttons
+      /**
+       * Setting up GridPane for 4 columns of buttons
+       */
       int numCols = 4;
-      int numRows = 6;
       GridPane paneButton = new GridPane();
-      paneButton.setPadding(new Insets(15, 0, 15, 0));  // top, right, bottom, left
-      paneButton.setVgap(5);  // Vertical gap between nodes
-      paneButton.setHgap(5);  // Horizontal gap between nodes
+      
+      /**
+       * top, right, bottom, and left
+       */
+      paneButton.setPadding(new Insets(15, 0, 15, 0));
+      
+      /**
+       * Vertical gap between nodes
+       */
+      paneButton.setVgap(5);
+      
+      /**
+       * Horizontal gap between nodes
+       */
+      paneButton.setHgap(5);
       // Setup 4 columns of equal width, fill parent
       ColumnConstraints[] columns = new ColumnConstraints[numCols];
       for (int i = 0; i < numCols; ++i) {
@@ -195,7 +274,10 @@ public class CalculatorFX extends Application {
       primaryStage.show();
    }
 
-   public static void main(String[] args) {
+   /**
+ * @param args
+ */
+public static void main(String[] args) {
       launch(args);
    }
 }
