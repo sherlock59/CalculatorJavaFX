@@ -1,4 +1,3 @@
-
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -244,39 +243,68 @@ private int value(int i) {
        * Horizontal gap between nodes
        */
       paneButton.setHgap(5);
-      // Setup 4 columns of equal width, fill parent
+
+      /**
+       * Setting up 4 columns of equal width, fill parent
+       */
       ColumnConstraints[] columns = new ColumnConstraints[numCols];
       for (int i = 0; i < numCols; ++i) {
          columns[i] = new ColumnConstraints();
-         columns[i].setHgrow(Priority.ALWAYS) ;  // Allow column to grow
-         columns[i].setFillWidth(true);  // Ask nodes to fill space for column
+         
+         /**
+          * Allows column to grow
+          */
+         columns[i].setHgrow(Priority.ALWAYS); 
+         
+         /**
+          * Asks nodes to fill space for column
+          */
+         columns[i].setFillWidth(true);
          paneButton.getColumnConstraints().add(columns[i]);
       }
 
-      // Setup 24 Buttons and add to GridPane; and event handler
+      /**
+       * Setting up 24 buttons and adding to GridPane & event handler
+       */
       btns = new Button[24];
       for (int i = 0; i < btns.length; ++i) {
          btns[i] = new Button(btnLabels[i]);
-         btns[i].setOnAction(handler);  // Register event handler
-         btns[i].setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);  // full-width
-         paneButton.add(btns[i], i % numCols, i / numCols);  // control, col, row
+         btns[i].setOnAction(handler);
+         btns[i].setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE); 
+         paneButton.add(btns[i], i % numCols, i / numCols);
       }
 
-      // Setup up the scene graph rooted at a BorderPane (of 5 zones)
+      /**
+       * Setting up the scene graph rooted at a BorderPane (5 zones)
+       */
       BorderPane root = new BorderPane();
-      root.setPadding(new Insets(15, 15, 15, 15));  // top, right, bottom, left
-      root.setTop(tfDisplay);     // Top zone contains the TextField
-      root.setCenter(paneButton); // Center zone contains the GridPane of Buttons
+      
+      /**
+       * top, right , bottom, and left
+       */
+      root.setPadding(new Insets(15, 15, 15, 15)); 
+      
+      /**
+       * top zone contains the text field
+       */
+      root.setTop(tfDisplay);
+      
+      /**
+       * Center zone contains the GridPane of Buttons
+       */
+      root.setCenter(paneButton);
 
-      // Set up scene and stage
+      /**
+       * Setting up scene and stage 
+       */
       primaryStage.setScene(new Scene(root, 300, 300));
       primaryStage.setTitle("JavaFX Calculator");
       primaryStage.show();
    }
 
    /**
- * @param args
- */
+    * @param main args
+    */
 public static void main(String[] args) {
       launch(args);
    }
