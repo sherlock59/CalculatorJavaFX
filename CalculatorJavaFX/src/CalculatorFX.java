@@ -2,7 +2,6 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -31,7 +30,7 @@ public class CalculatorFX extends Application {
 private TextField tfDisplay;
 
    /**
-    * 16 buttons 
+    * 16 buttons for the calculator
     */
 private Button[] btns; 
 
@@ -44,7 +43,7 @@ private String[] btnLabels = {
       "1", "2", "3", "*",
       "C", "0", "=", "/",
       "^", "SPC", "SQRT", "POW",
-      "MC", "MR", "M+", "M-"
+      "MC", "MR", "M+", "M-", "Memory = "
    };
 
    /**
@@ -71,7 +70,7 @@ private String lastOperator = " ";
    /**
     * Event handler for all the 16 Buttons
     */
-EventHandler handler = evt -> {
+EventHandler<ActionEvent> handler = evt -> {
       String currentBtnLabel = ((Button)evt.getSource()).getText();
       
       /**
@@ -79,7 +78,6 @@ EventHandler handler = evt -> {
        */
       int currentNum = Integer.parseInt(tfDisplay.getText());
       String space = null;
-      int rand = value(0-9);
       switch (currentBtnLabel) {
    
       /**
@@ -108,12 +106,11 @@ EventHandler handler = evt -> {
             break;
             
             /**
-             * Space button 
+             * Space button for calculator
              */
          case "SPC":
         	 space = "";
-        	 Button btns;
-        	 inStr = String.valueOf(space);
+		     inStr = String.valueOf(space);
         	 break;
 
         	 /**
@@ -203,14 +200,6 @@ private void compute() {
    }
 
    /**
-    * @param i
-    * @return
-    */
-private int value(int i) {
-	return 0;
-}
-
-   /**
     * Setting up the UI
     */
 @Override
@@ -232,6 +221,7 @@ private int value(int i) {
       /**
        * top, right, bottom, and left
        */
+    
       paneButton.setPadding(new Insets(15, 0, 15, 0));
       
       /**
@@ -272,8 +262,9 @@ private int value(int i) {
          btns[i].setOnAction(handler);
          btns[i].setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE); 
          paneButton.add(btns[i], i % numCols, i / numCols);
+         
       }
-
+      
       /**
        * Setting up the scene graph rooted at a BorderPane (5 zones)
        */
@@ -293,14 +284,14 @@ private int value(int i) {
        * Center zone contains the GridPane of Buttons
        */
       root.setCenter(paneButton);
-
+   
       /**
        * Setting up scene and stage 
        */
       primaryStage.setScene(new Scene(root, 300, 300));
       primaryStage.setTitle("JavaFX Calculator");
       primaryStage.show();
-   }
+}
 
    /**
     * @param main args
